@@ -67,8 +67,6 @@ app.post('/breakdown', async (req, res) => {
       }
     });
 
-    console.log(completion);
-
     const response = completion.choices[0].message.content;
     const parsedResponse = JSON.parse(response);
     

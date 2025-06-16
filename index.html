@@ -21,7 +21,7 @@
 
         window.TrelloPowerUp.initialize({
             'card-buttons': async function(t, options) {
-                const { name, description } = await t.card('name', 'desc');
+                const { id, name, description } = await t.card('id', 'name', 'desc');
 
                 return [
                     {
@@ -33,6 +33,7 @@
                                 url: 'https://8d70-86-49-74-137.ngrok-free.app/modal.html',
                                 height: 600,
                                 args: {
+                                    id,
                                     name,
                                     description
                                 }
@@ -43,20 +44,16 @@
                         icon: 'https://8d70-86-49-74-137.ngrok-free.app/icon-transparent.png',
                         text: "I need a checklist",
                         callback: async function(t) {
-                            const { name, description } = await t.card('name', 'desc');
-
-                            // implement this.
-                            // https://developer.atlassian.com/cloud/trello/rest/api-group-checklists/#api-checklists-post
-
-                            const checklist = await createChecklist(name, description);
-                            console.log(checklist);
-
-                            // create new checklist based on steps generated in breakdown
-                            // https://developer.atlassian.com/cloud/trello/rest/api-group-checklists/#api-checklists-post
-
-                            // create new checklist items based on steps generated in breakdown
-                            // https://developer.atlassian.com/cloud/trello/rest/api-group-checklists/#api-checklists-id-checkitems-post
-
+                            return t.popup({
+                                title: 'You need a checklist?',
+                                url: 'https://8d70-86-49-74-137.ngrok-free.app/popup.html',
+                                height: 300,
+                                args: {
+                                    id,
+                                    name,
+                                    description
+                                }
+                            });
                         }
                     }
                 ];
