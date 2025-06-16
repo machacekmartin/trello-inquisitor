@@ -4,25 +4,62 @@
     <meta charset="utf-8">
     <script src="https://p.trellocdn.com/power-up.min.js"></script>
     <script>
+        async function createChecklist(name, description) {
+            const response = await fetch('https://8d70-86-49-74-137.ngrok-free.app/breakdown', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    cardName: name,
+                    cardDescription: description
+                })
+            });
+
+            return await response.json();
+        }
+
         window.TrelloPowerUp.initialize({
             'card-buttons': async function(t, options) {
                 const { name, description } = await t.card('name', 'desc');
 
-                return [{
-                    icon: 'https://8d70-86-49-74-137.ngrok-free.app/icon-transparent.png',
-                    text: "Did I forget anything?",
-                    callback: function(t) {
-                        return t.modal({
-                            title: 'Didn\'t you forget?',
-                            url: 'https://8d70-86-49-74-137.ngrok-free.app/modal.html',
-                            height: 600,
-                            args: {
-                                name,
-                                description
-                            }
-                        });
+                return [
+                    {
+                        icon: 'https://8d70-86-49-74-137.ngrok-free.app/icon-transparent.png',
+                        text: "Did I forget anything?",
+                        callback: function(t) {
+                            return t.modal({
+                                title: 'Didn\'t you forget?',
+                                url: 'https://8d70-86-49-74-137.ngrok-free.app/modal.html',
+                                height: 600,
+                                args: {
+                                    name,
+                                    description
+                                }
+                            });
+                        }
+                    },
+                    {
+                        icon: 'https://8d70-86-49-74-137.ngrok-free.app/icon-transparent.png',
+                        text: "I need a checklist",
+                        callback: async function(t) {
+                            const { name, description } = await t.card('name', 'desc');
+
+                            // implement this.
+                            // https://developer.atlassian.com/cloud/trello/rest/api-group-checklists/#api-checklists-post
+
+                            const checklist = await createChecklist(name, description);
+                            console.log(checklist);
+
+                            // create new checklist based on steps generated in breakdown
+                            // https://developer.atlassian.com/cloud/trello/rest/api-group-checklists/#api-checklists-post
+
+                            // create new checklist items based on steps generated in breakdown
+                            // https://developer.atlassian.com/cloud/trello/rest/api-group-checklists/#api-checklists-id-checkitems-post
+
+                        }
                     }
-                }];
+                ];
             }
         }); 
     </script>
