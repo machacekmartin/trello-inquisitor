@@ -22,19 +22,18 @@ app.post('/breakdown', async (req, res) => {
     const prompt = `
       You are a professional trello task breakdown expert. 
       We are a software company making web applications. Our trello cards are about software development tasks.
-      Your job is to read thoroughly this trello card and divide it into smaller actionable checklist items.
+      Your job is to read thoroughly this trello card's description and divide it into smaller actionable checklist items.
       Be as specific as possible
       You must not make assumptions without evidence from description in the card.
       You must not make up steps that are not backed up by text in the card description.
-      You must not make assumptions about implementation details.
       Do not use emoji.
       Do not write anything except for the list.
       Do not write descriptions, just write list points.
-      Limit your response to 5 steps maximum, minimum 2 steps.
+      Limit your response to 8 steps maximum, minimum 2 steps.
       Your job is not to make up steps, but to break down the card sections into actionable items.
       If you do great job, you will be rewarded with 100$. If you do a bad job, a salary deduction will be applied.
 
-      Reply in the card's language.
+      Respond in the card's language.
 
       <CARD>
         <NAME>${cardName}</NAME>
@@ -95,6 +94,8 @@ app.post('/analyze', async (req, res) => {
       Do not write descriptions, just write list points.
       Do not generate way too many questions.
       Select the most important 5-10 questions I missed.
+
+      Respond in the card's language.
 
       <CARD>
         <NAME>${cardName}</NAME>

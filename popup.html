@@ -126,7 +126,7 @@
 
         const id = trello.arg('id');
         const name = trello.arg('name');
-        const description = trello.arg('description');
+        const description = trello.arg('desc');
 
         let checklistItems = null
 
@@ -183,7 +183,7 @@
                 const output = breakdown.items.map(item => `
                     <li class="popup-output-item">
                         <label style="display: flex; gap: 15px;" for="popup-output-item-${item}">
-                            <input type="checkbox" id="popup-output-item-${item}">
+                            <input type="checkbox" checked id="popup-output-item-${item}">
                             <span>${item}</span>    
                         </label>       
                     </li>
