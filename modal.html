@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html style="min-height: 100%; display: flex;">
+<head>
+    <meta charset="utf-8">
+    <script src="https://p.trellocdn.com/power-up.min.js"></script>
+
+    <style>
+        #modal-body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            width: 100%;
+        }
+
+        #modal-content {
+            width: 100%;
+            background: var(--ds-surface-sunken, #f7f8f9);
+            margin-top: -14px;
+            padding-top: 14px;
+
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+
+        #modal-loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            height: 100%;
+        }
+
+        #modal-loading-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 14px;
+            animation: pulse 1s infinite ease-in-out;
+        }
+
+        @keyframes pulse {
+            0% {
+                opacity: 0.2;
+            }
+            25% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0.2;
+            }
+        }
+
+        #modal-loading-text {
+            text-align: center;
+            color: #ffffff47;
+            font-size: 14px;
+            font-style: italic;
+        }
+
+        #modal-output {
+            display: none;
+        }
+
+        #modal-output-hint {
+            text-align: center;
+            color: #ffffff47;
+            font-size: 14px;
+            font-style: italic;
+        }
+
+        #modal-output-list {
+            list-style-type: none;
+            margin: 0;
+            font-family: system-ui;
+            padding: 0 20px;
+            padding-bottom: 10px;
+        }
+
+        .modal-output-item {
+            display: flex;
+            padding: 14px 20px;
+            background: var(--ds-surface-raised, #ffffff);
+            margin: 8px 0;
+            border-radius: 6px;
+            border: solid 1px #ffffff12;
+        }
+
+        .modal-output-checkbox {
+            margin-right: 20px;
+        }
+
+        #modal-error {
+            display: none;
+        }
+    </style>
+</head>
+<body id="modal-body">
+    <div id="modal-content">
+        <div id="modal-loading">
+            <img id="modal-loading-icon" src="https://8d70-86-49-74-137.ngrok-free.app/icon.png" alt="Loading">
+        </div>
+
+        <div id="modal-output">
+            <p id="modal-output-hint">Didn't you forget to ask these questions?</p>
+
+            <ul id="modal-output-list">
+                <!--  -->
+            </ul>
+        </div>
+
+        <div id="modal-error">
+            <!--  -->
+        </div>
+    </div>
+
+    <script>
+        const trello = window.TrelloPowerUp.iframe();
+
+        const name = trello.arg('name');
+        const description = trello.arg('description');
+        
+        async function analyzeCard() {
+            try {
+                const response = await fetch('https://8d70-86-49-74-137.ngrok-free.app/analyze', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        cardName: name,
+                        cardDescription: description
+                    })
+                });
+
+                const { analysis } = await response.json();
+
+                const output = analysis.items.map(item => `
+                    <li class="modal-output-item">
+                        <label style="display: flex;" for="modal-output-checkbox-${item}">
+                            <input id="modal-output-checkbox-${item}" type="checkbox" class="modal-output-checkbox">
+                            <span>${item}</span>
+                        </label>
+                    </li>
+                `).join('');
+
+                document.getElementById('modal-output-list').innerHTML = output;
+
+                document.getElementById('modal-output').style.display = 'block';
+            } catch (error) {
+                document.getElementById('modal-error').innerHTML = 'Failed to analyze card: ' + error.message;
+            } finally {
+                document.getElementById('modal-loading').style.display = 'none';
+            }
+        }
+
+        analyzeCard();
+    </script>
+</body>
+</html> 

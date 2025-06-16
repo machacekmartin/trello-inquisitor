@@ -1,0 +1,18 @@
+{
+  "name": "Didn't I Forget Anything?",
+  "details": "Adds a button to check if you forgot anything on your card",
+  "icon": {
+    "url": "https://8d70-86-49-74-137.ngrok-free.app/icon.png"
+  },
+  "author": "Your Name",
+  "capabilities": [
+    "callback",
+    "card-buttons"
+  ],
+  "connectors": {
+    "iframe": {
+      "url": "https://8d70-86-49-74-137.ngrok-free.app/index.html"
+    }
+  },
+  "powerUpId": "68506c3ae4cac168aacd2534"
+} 

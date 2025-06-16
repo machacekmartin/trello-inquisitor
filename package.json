@@ -1,0 +1,14 @@
+{
+  "name": "trello-did-i-forget",
+  "version": "1.0.0",
+  "description": "Trello Power-Up that adds a 'Didn't I forget anything?' button",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "openai": "^4.28.0",
+    "dotenv": "^16.4.5"
+  }
+} 
